@@ -21,6 +21,7 @@ import psutil
 # 添加源码目录到模块搜索路径
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
 
+import src.utils.behavior_analysis
 from src.utils.behavior_analysis import (
     BehaviorAnalyzer, ProcessBehaviorAnalyzer, UserBehaviorAnalyzer,
     SystemResourceAnalyzer, FileSystemAnalyzer, NetworkBehaviorAnalyzer,

@@ -91,13 +91,13 @@ Recent documentation updates include:
 
 ## Current Focus Areas
 
-With all core modules now complete, the development team is focused on:
+With all 16 modules now complete including advanced features, the development team is focused on:
 
-1. **Performance Optimization**: Improving efficiency of file scanning and analysis
-2. **Enhanced Testing**: Maintaining and improving test reliability
-3. **Documentation Enhancement**: Keeping documentation current and comprehensive
-4. **Preparing for First Stable Release**: Finalizing preparations for the 1.0 release
-5. **Implementation of Near-term Goals**: Beginning work on expanded OS support and UI development
+1. **Performance Optimization**: Improving efficiency of ML models and real-time monitoring
+2. **Enhanced Testing**: Adding tests for new modules (behavior monitor, container security, advanced threats)
+3. **Documentation Enhancement**: Updating documentation for new features
+4. **Dashboard Enhancement**: Improving web UI with more visualizations and controls
+5. **Threat Intelligence Expansion**: Adding more threat intelligence sources
 
 ## Known Issues and Challenges
 
@@ -112,4 +112,4 @@ We welcome contributions from the community! See the [Contributing Guide](CONTRI
 
 ## Last Updated
 
-This document was last updated on May 8, 2025.
+This document was last updated on May 29, 2025.

@@ -55,3 +55,8 @@ reports/
 # Local configuration
 local_config.yaml
 **/.claude/settings.local.json
+
+# Claude configuration files
+CLAUDE.md
+.claude/
+**/CLAUDE.md

@@ -12,7 +12,7 @@ from datetime import datetime
 import time
 import threading
 
-from utils.ml_utils import CryptominerDetector, CPUProfiler, MLModelManager
+from utils.ml_utils import MLModelManager
 
 class CryptominerDetectionModule:
     """Detects cryptomining malware using ML and heuristics"""

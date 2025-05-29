@@ -23,8 +23,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import DBSCAN
 
 # 导入SharpEye本地模块
-from ..utils import ml_utils
-from ..utils.reporter import Reporter
+from utils import ml_utils
+from utils.reporter import Reporter
 
 # 配置日志
 logger = logging.getLogger("sharpeye.behavior_analysis")

@@ -693,10 +693,244 @@ cryptominer:
     # Whether to use ML detection if available
     use_ml: true
 
+# Container security configuration
+container_security:
+  # Enable continuous background monitoring
+  continuous_monitoring: false
+  
+  # Monitoring interval in seconds (default 5 minutes)
+  monitoring_interval: 300
+  
+  # Baseline file
+  baseline_file: "/var/lib/sharpeye/baselines/container_security.json"
+  
+  # Security thresholds
+  thresholds:
+    # Maximum number of containers running in privileged mode (0 = none allowed)
+    max_privileged_containers: 0
+    
+    # Maximum number of containers without resource limits
+    max_containers_without_limits: 5
+    
+    # Maximum number of containers running as root
+    max_root_containers: 5
+    
+    # Maximum number of containers allowed to mount sensitive host paths
+    max_sensitive_mounts: 0
+    
+    # Maximum number of containers with risky capabilities
+    max_capability_containers: 3
+    
+    # Vulnerability severity threshold (UNKNOWN, LOW, MEDIUM, HIGH, CRITICAL)
+    vulnerability_severity_threshold: "HIGH"
+  
+  # Host paths considered sensitive for mounting
+  sensitive_host_paths:
+    - "/etc"
+    - "/var/run/docker.sock"
+    - "/var/lib/docker"
+    - "/var/run/crio/crio.sock"
+    - "/var/lib/kubelet"
+    - "/etc/kubernetes"
+    - "/root"
+    - "/home"
+    - "/boot"
+    - "/proc"
+    - "/sys"
+    - "/dev"
+  
+  # Capabilities considered risky
+  risky_capabilities:
+    - "CAP_SYS_ADMIN"
+    - "CAP_NET_ADMIN"
+    - "CAP_SYS_PTRACE"
+    - "CAP_SYS_MODULE"
+    - "CAP_SYS_RAWIO"
+    - "CAP_SYS_BOOT"
+    - "CAP_SYS_CHROOT"
+    - "CAP_SYS_NICE"
+    - "CAP_BPF"
+    - "CAP_PERFMON"
+    - "ALL"  # Represents all capabilities
+
+# Behavior monitor configuration
+behavior_monitor:
+  # Enable continuous background monitoring
+  continuous_monitoring: true
+  
+  # Reporting interval in seconds (default 5 minutes)
+  report_interval: 300
+  
+  # Baseline directory
+  baseline_path: "/var/lib/sharpeye/baselines/behavior"
+  
+  # Automatically establish baseline on first run
+  auto_baseline: true
+  
+  # Duration for baseline collection in minutes
+  baseline_duration: 60
+  
+  # Alert threshold (anomaly score above this value triggers alert)
+  alert_threshold: 0.8
+  
+  # Alert cooldown period in seconds
+  alert_cooldown: 300
+  
+  # Monitoring configuration
+  process_monitor:
+    enabled: true
+    scan_interval: 30
+  
+  file_monitor:
+    enabled: true
+    monitored_paths:
+      - "/etc"
+      - "/bin"
+      - "/sbin"
+      - "/usr/bin"
+      - "/usr/sbin"
+      - "/var/www"
+      - "/var/log"
+      - "/root"
+    excluded_paths:
+      - "/var/log/sharpeye"
+  
+  network_monitor:
+    enabled: true
+    scan_interval: 10
+  
+  user_monitor:
+    enabled: true
+    scan_interval: 60
+  
+  system_monitor:
+    enabled: true
+    scan_interval: 60
+  
+  # Behavior analyzer configuration
+  analyzer:
+    # Maximum history size per behavior type
+    history_size: 1000
+    
+    # Anomaly detection parameters
+    n_estimators: 100
+    contamination: 0.05
+    
+    # Process behavior parameters
+    process:
+      # High CPU threshold for reporting (percent)
+      high_cpu_threshold: 80
+      # High memory threshold for reporting (percent)
+      high_memory_threshold: 50
+      # Suspicious paths for processes
+      suspicious_paths:
+        - "/tmp"
+        - "/dev/shm"
+        - "/var/tmp"
+        - "/run/user"
+    
+    # User behavior parameters
+    user:
+      # Unusual login hours (24-hour format)
+      unusual_hours: [22, 23, 0, 1, 2, 3, 4, 5]
+      # Suspicious user activity threshold
+      sudo_threshold: 10
+      # Sensitive file access threshold
+      sensitive_file_threshold: 5
+    
+    # File behavior parameters
+    file:
+      # Sensitive paths to monitor
+      sensitive_paths:
+        - "/etc/passwd"
+        - "/etc/shadow"
+        - "/etc/sudoers"
+        - "/etc/ssh"
+        - "/var/log"
+        - "/root"
+        - "/home"
+        - "/usr/bin"
+        - "/sbin"
+      # Monitored file extensions
+      monitored_extensions:
+        - ".sh"
+        - ".py"
+        - ".rb"
+        - ".pl"
+        - ".conf"
+        - ".key"
+        - ".pem"
+        - ".cert"
+        - ".db"
+        - ".sqlite"
+        - ".sql"
+    
+    # Network behavior parameters
+    network:
+      # Data transfer threshold for alerting (MB)
+      data_threshold: 10
+      # Known ports to monitor
+      known_ports:
+        22: "SSH"
+        23: "Telnet"
+        25: "SMTP"
+        80: "HTTP"
+        443: "HTTPS"
+        21: "FTP"
+        3306: "MySQL"
+        5432: "PostgreSQL"
+        27017: "MongoDB"
+        53: "DNS"
+        123: "NTP"
+
+# Advanced threat detection configuration
+advanced_threats:
+  # Enable advanced threat detection
+  enabled: true
+  
+  # Model directory
+  model_dir: "/var/lib/sharpeye/models"
+  
+  # Pattern detection settings
+  pattern_detection:
+    enabled: true
+    confidence_threshold: 0.7
+  
+  # Machine learning settings  
+  ml_detection:
+    enabled: true
+    anomaly_contamination: 0.1
+    
+  # Attack chain analysis
+  attack_chain_analysis:
+    enabled: true
+    min_chain_length: 2
+
+# Web dashboard configuration
+dashboard:
+  # Enable web dashboard
+  enabled: true
+  
+  # Dashboard settings
+  host: "0.0.0.0"
+  port: 5000
+  
+  # Security
+  secret_key: "change-this-secret-key-in-production"
+  
+  # Real-time updates
+  update_interval: 5  # seconds
+
 # Alerting configuration
 alerting:
   # Enable alerting
-  enabled: false
+  enabled: true
+  
+  # Deduplication window in minutes
+  dedup_window_minutes: 5
+  
+  # Maximum alerts to keep in history
+  max_history: 1000
   
   # Alert on anomalies of specific severity
   min_severity: "medium"  # (low, medium, high, critical)

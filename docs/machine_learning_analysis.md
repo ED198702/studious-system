@@ -1,6 +1,75 @@
 # Machine Learning Analysis in SharpEye
 
-SharpEye now incorporates machine learning techniques to enhance its anomaly detection capabilities. This document provides an overview of the ML-based analysis features, focusing on system resource monitoring.
+SharpEye incorporates advanced machine learning techniques to enhance its anomaly detection capabilities. This document provides an overview of the ML-based analysis features, including system resource monitoring and the new comprehensive behavior anomaly detection system.
+
+## Behavior Anomaly Detection
+
+The latest SharpEye update introduces a powerful behavior anomaly detection framework that provides comprehensive monitoring of system behaviors to identify potential security threats. This framework represents a significant enhancement to SharpEye's security capabilities.
+
+### Overview
+
+The behavior anomaly detection system monitors and analyzes various aspects of system behavior:
+
+1. **Process Behavior** - Monitors process resource usage, relationships, execution patterns, and lifecycle
+2. **User Behavior** - Tracks user activities, login patterns, command usage, and privilege changes
+3. **System Resource Behavior** - Monitors system-wide resource usage patterns and anomalies
+4. **File System Behavior** - Detects unusual file operations, access patterns, and modifications
+5. **Network Behavior** - Identifies unusual connection patterns, data transfers, and communications
+
+Each behavioral domain is analyzed using machine learning techniques to establish normal behavior baselines and detect deviations that may indicate security threats.
+
+### Key Components
+
+#### 1. Behavior Analyzer
+
+The core `BehaviorAnalyzer` class implements:
+
+- Feature extraction from raw system data
+- Baseline establishment and maintenance
+- Anomaly detection using Isolation Forest algorithm
+- Severity assessment and reporting
+
+#### 2. Behavior Monitor
+
+The `BehaviorMonitor` service provides:
+
+- Real-time monitoring across all behavior domains
+- Coordination between specialized monitoring components
+- Periodic reporting and alerting
+- Baseline management
+
+#### 3. Specialized Analyzers
+
+Dedicated analyzers for each behavior domain:
+
+- `ProcessBehaviorAnalyzer` - Process-specific anomaly detection
+- `UserBehaviorAnalyzer` - User activity analysis
+- `SystemResourceAnalyzer` - System-wide resource monitoring
+- `FileSystemAnalyzer` - File operation monitoring
+- `NetworkBehaviorAnalyzer` - Network communication analysis
+
+### Implementation Highlights
+
+- **Isolation Forest Algorithm** - Efficient unsupervised learning for anomaly detection
+- **Contextual Anomaly Detection** - Considers behavioral context when identifying anomalies
+- **Multi-dimensional Analysis** - Examines multiple data points simultaneously
+- **Temporal Pattern Recognition** - Identifies unusual patterns developing over time
+- **Cross-domain Correlation** - Connects anomalies across different behavior domains
+
+### Usage
+
+The behavior anomaly detection can be run as a standalone module:
+
+```bash
+sudo sharpeye --module behavior
+```
+
+Or enabled as a continuous background service in the configuration:
+
+```yaml
+behavior_monitor:
+  continuous_monitoring: true
+```
 
 ## System Resource Pattern Analysis
 
@@ -203,26 +272,177 @@ Planned future enhancements to the ML-based analysis include:
 4. **Automated Response** - Suggesting mitigation actions based on detected patterns
 5. **User Feedback Loop** - Incorporating user feedback on false positives/negatives
 
+## Advanced Behavior Anomaly Detection Features
+
+### Process Behavior Analysis
+
+The process behavior analysis detects abnormal process activity including:
+
+- Unusual resource usage patterns
+- Suspicious execution paths
+- Abnormal network activities by processes
+- Unusual process creation patterns
+- Suspicious parent-child relationships
+- Cryptomining and other malicious activities
+
+Key features extracted from processes include:
+
+- CPU and memory usage patterns
+- I/O operations statistics
+- Network connection count and types
+- Process lifetime and execution context
+- Command-line arguments and parameters
+- Execution paths and ownership
+
+### User Behavior Analysis
+
+The user behavior analysis identifies abnormal user activities:
+
+- Unusual login times or source locations
+- Privilege escalation attempts
+- Suspicious command execution patterns
+- Access to sensitive files or resources
+- Unusual session durations
+- Login failure patterns
+
+Key features tracked for user behavior include:
+
+- Login time distribution
+- Source IP address history
+- Command execution frequency and types
+- Privilege usage patterns
+- File access patterns
+- Session duration statistics
+
+### File System Behavior Analysis
+
+The file system behavior analysis detects suspicious file activities:
+
+- Modification of critical system files
+- Creation of files in suspicious locations
+- Unusual permission or ownership changes
+- Access patterns to sensitive files
+- Suspicious file extension or type changes
+- Abnormal file growth patterns
+
+Key file behavior features include:
+
+- Operation type (read, write, execute, delete)
+- Path sensitivity classification
+- File size and growth metrics
+- User/owner identity
+- Hidden file indicators
+- Permission settings
+- Timestamp patterns
+- Access frequency
+
+### Network Behavior Analysis
+
+The network behavior analysis identifies abnormal network activities:
+
+- Unusual connection patterns
+- Data exfiltration attempts
+- Command and control communications
+- Beaconing or periodic connections
+- Connections to suspicious destinations
+- Abnormal data transfer volumes
+
+Network behavior features include:
+
+- Connection protocol and type
+- Remote port and known service mapping
+- Data transfer volume
+- Connection duration
+- Connection frequency
+- Packet size distribution
+- Encryption indicators
+- Geographic location indicators
+
+### Configuration Options
+
+The behavior anomaly detection system is highly configurable:
+
+```yaml
+behavior_monitor:
+  # Core settings
+  continuous_monitoring: true
+  report_interval: 300
+  baseline_path: "/var/lib/sharpeye/baselines/behavior"
+  auto_baseline: true
+  baseline_duration: 60
+  alert_threshold: 0.8
+  
+  # Monitor settings
+  process_monitor:
+    enabled: true
+    scan_interval: 30
+  
+  file_monitor:
+    enabled: true
+    monitored_paths:
+      - "/etc"
+      - "/bin"
+      - "/sbin"
+    excluded_paths:
+      - "/var/log/sharpeye"
+  
+  # Behavior analyzer settings
+  analyzer:
+    history_size: 1000
+    n_estimators: 100
+    contamination: 0.05
+```
+
+### Integration with Threat Intelligence
+
+The behavior anomaly detection system integrates with SharpEye's threat intelligence functionality:
+
+1. Network connections are checked against known malicious IP addresses
+2. File operations are correlated with known malware signatures
+3. Process behaviors are matched against known attack patterns
+4. User behaviors are analyzed for known compromise indicators
+
+This integration enhances detection capabilities by providing additional context for anomaly evaluation.
+
 ## Using ML Analysis in Other Modules
 
-The machine learning approach implemented in the system resources module provides a framework that can be extended to other SharpEye modules:
+The machine learning approaches implemented in SharpEye provide a comprehensive framework that enhances all security modules:
 
-- **User Account Module** - Detect anomalous login patterns and user behavior
-- **Network Module** - Identify unusual network traffic patterns
-- **Process Module** - Detect anomalous process behavior and relationships
-- **SSH Module** - Recognize suspicious SSH access patterns
-- **Rootkit Detection** - Enhance detection of sophisticated rootkits
+- **User Account Module** - Enhanced with user behavior anomaly detection
+- **Network Module** - Enriched with network behavior pattern analysis
+- **Process Module** - Upgraded with process behavior anomaly detection
+- **SSH Module** - Improved with login pattern analysis and behavior tracking
+- **Rootkit Detection** - Strengthened with sophisticated behavior-based detection
+- **Cryptominer Detection** - Enhanced with statistical pattern recognition
 
-Implementing ML analysis in these modules will follow a similar pattern:
-1. Collect relevant metrics over time
-2. Extract features that capture important characteristics
-3. Apply unsupervised learning for anomaly detection
-4. Correlate findings across different data sources
+The behavior anomaly detection system provides a unified approach that connects and correlates findings across all modules, significantly improving detection capabilities.
 
 ## Requirements
 
 The machine learning capabilities require the following Python packages:
 - numpy
 - scikit-learn
+- pandas
+- scipy
+- psutil (for live system data collection)
 
 These dependencies are included in the SharpEye requirements.txt file.
+
+## Performance Considerations
+
+The behavior anomaly detection system is designed to be efficient and scalable:
+
+- Memory usage is controlled through configurable history limits
+- CPU usage is optimized by using efficient algorithms
+- Storage requirements are minimal, with baselines stored in compact JSON format
+- Resource consumption can be fine-tuned through configuration parameters
+
+## Future Enhancements
+
+Planned enhancements for the behavior anomaly detection system include:
+
+1. **Deep Learning Models** - Adding neural network-based detection for complex patterns
+2. **Multi-system Correlation** - Analyzing behavior across multiple systems
+3. **Adversarial Analysis** - Detecting evasion techniques used by advanced threats
+4. **Behavioral Fingerprinting** - Developing unique signatures for known attack patterns
+5. **Adaptive Thresholding** - Automatically adjusting detection thresholds based on system environment

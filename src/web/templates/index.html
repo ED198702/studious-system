@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SharpEye Security Dashboard</title>
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ SharpEye Security Dashboard</h1>
+            <div class="status-bar">
+                <span id="connection-status">Disconnected</span>
+                <span id="system-time"></span>
+            </div>
+        </header>
+        
+        <div class="dashboard-grid">
+            <div class="widget" id="system-metrics">
+                <h2>System Metrics</h2>
+                <canvas id="cpu-chart" height="150"></canvas>
+                <div class="metric-values">
+                    <div class="metric">
+                        <span class="label">CPU:</span>
+                        <span class="value" id="cpu-value">0%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="label">Memory:</span>
+                        <span class="value" id="memory-value">0%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="label">Disk:</span>
+                        <span class="value" id="disk-value">0%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="widget" id="alerts">
+                <h2>Recent Alerts</h2>
+                <div id="alert-list"></div>
+            </div>
+            
+            <div class="widget" id="threats">
+                <h2>Threat Analysis</h2>
+                <div id="threat-summary">
+                    <div class="threat-score">
+                        <span class="label">Risk Score:</span>
+                        <span class="value" id="risk-score">0.00</span>
+                    </div>
+                    <div id="threat-details"></div>
+                </div>
+            </div>
+            
+            <div class="widget" id="modules">
+                <h2>Module Status</h2>
+                <div id="module-list"></div>
+            </div>
+            
+            <div class="widget wide" id="network-activity">
+                <h2>Network Activity</h2>
+                <canvas id="network-chart" height="200"></canvas>
+            </div>
+            
+            <div class="widget" id="behavior-monitor">
+                <h2>Behavior Analysis</h2>
+                <div id="behavior-status">
+                    <div class="status-item">
+                        <span class="label">Monitoring:</span>
+                        <span class="value" id="behavior-monitoring">Inactive</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">Anomalies:</span>
+                        <span class="value" id="behavior-anomalies">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>SharpEye IDS v1.0.0 | &copy; 2025 innora.ai</p>
+        </footer>
+    </div>
+    
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

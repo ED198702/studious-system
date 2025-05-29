@@ -9,10 +9,12 @@ from .kernel_modules import KernelModuleAnalyzer
 from .library_inspection import LibraryInspector
 from .log_analysis import LogAnalysisEngine
 from .privilege_escalation import PrivilegeEscalationDetector
-from .cryptominer import CryptominerDetector
+from .cryptominer import CryptominerDetectionModule
 from .ssh_analyzer import SSHAnalyzer
 from .rootkit_detector import RootkitDetector
 from .scheduled_tasks import ScheduledTasksAnalyzer
+from .container_security import ContainerSecurityModule
+from .advanced_threat_detector import AdvancedThreatDetector
 
 __all__ = [
     'FileIntegrityMonitor',
@@ -27,5 +29,7 @@ __all__ = [
     'CryptominerDetector',
     'SSHAnalyzer',
     'RootkitDetector',
-    'ScheduledTasksAnalyzer'
+    'ScheduledTasksAnalyzer',
+    'ContainerSecurityModule',
+    'AdvancedThreatDetector'
 ]

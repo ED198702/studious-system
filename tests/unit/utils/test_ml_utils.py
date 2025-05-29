@@ -11,6 +11,7 @@ import shutil
 import pickle
 import json
 import time
+import subprocess
 from unittest.mock import patch, MagicMock, mock_open
 import numpy as np
 from collections import deque
@@ -158,7 +159,7 @@ class TestCPUProfiler(unittest.TestCase):
         # Check that growth rates are calculated
         self.assertIn('cpu_growth_rate', features2)
     
-    @patch('subprocess.check_output', side_effect=Exception("Test error"))
+    @patch('subprocess.check_output', side_effect=subprocess.SubprocessError("Test error"))
     def test_get_process_features_error(self, mock_check_output):
         """Test error handling during process feature extraction"""
         features = self.profiler.get_process_features(1234)
@@ -202,7 +203,9 @@ class TestCPUProfiler(unittest.TestCase):
         
         # Check statistical features
         self.assertEqual(features['mean_cpu'], 25.0)
-        self.assertAlmostEqual(features['std_cpu'], 12.9099, places=4)  # sqrt((10-25)^2 + (20-25)^2 + (30-25)^2 + (40-25)^2 / 4)
+        # Standard deviation calculation: sqrt(((10-25)^2 + (20-25)^2 + (30-25)^2 + (40-25)^2) / 4)
+        # = sqrt((225 + 25 + 25 + 225) / 4) = sqrt(500/4) = sqrt(125) ≈ 11.1803
+        self.assertAlmostEqual(features['std_cpu'], 11.1803, places=4)
         self.assertEqual(features['min_cpu'], 10.0)
         self.assertEqual(features['max_cpu'], 40.0)
         
