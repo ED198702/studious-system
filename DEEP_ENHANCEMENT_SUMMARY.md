@@ -334,4 +334,4 @@ dashboard:
 
 ---
 
-**SharpEye** - Making Advanced Threats Visible | 让高级威胁无处遁形 🛡️
+**SharpEye** - Making Advanced Threats Visible | 让高级威胁无处遁形 
